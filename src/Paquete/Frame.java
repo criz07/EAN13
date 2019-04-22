@@ -118,6 +118,7 @@ public class Frame extends javax.swing.JFrame {
             codeEAN.setCodeType(codeEAN.EAN13);
             codeEAN.setCode(codigof);
             Image imageEAN = codeEAN.createImageWithBarcode(pdf.getDirectContent(), null, null);
+            
             doc.add(imageEAN);
             doc.close();
         } catch (FileNotFoundException ex) {
