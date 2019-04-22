@@ -10,11 +10,15 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BarcodeEAN;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -27,6 +31,7 @@ public class Frame extends javax.swing.JFrame {
      */
     public Frame() {
         initComponents();
+        this.setLocationRelativeTo(this);
     }
 
     /**
@@ -42,6 +47,7 @@ public class Frame extends javax.swing.JFrame {
         codigoframe = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        labelimage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,7 +67,7 @@ public class Frame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
+                .addContainerGap(69, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -73,12 +79,16 @@ public class Frame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(166, 166, 166)))
-                .addGap(58, 58, 58))
+                .addGap(44, 44, 44))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(labelimage, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
                 .addComponent(jLabel1)
                 .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -86,7 +96,9 @@ public class Frame extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addGap(43, 43, 43)
                 .addComponent(jButton1)
-                .addGap(27, 27, 27))
+                .addGap(18, 18, 18)
+                .addComponent(labelimage, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -118,15 +130,22 @@ public class Frame extends javax.swing.JFrame {
             codeEAN.setCodeType(codeEAN.EAN13);
             codeEAN.setCode(codigof);
             Image imageEAN = codeEAN.createImageWithBarcode(pdf.getDirectContent(), null, null);
-            
             doc.add(imageEAN);
             doc.close();
+            BufferedImage bImage = new BufferedImage((int) imageEAN.getWidth(), (int) imageEAN.getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = bImage.createGraphics();
+            
+
+            File outputfile = new File("saved.png");
+            ImageIO.write(bImage, "jpg", new File("code39.jpg"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -169,5 +188,6 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel labelimage;
     // End of variables declaration//GEN-END:variables
 }
