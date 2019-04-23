@@ -5,20 +5,16 @@
  */
 package Paquete;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.pdf.BarcodeEAN;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.awt.Graphics2D;
+import com.sun.glass.events.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import jbarcodebean.JBarcodeBean;
+import net.sourceforge.jbarcodebean.model.Ean13;
 
 /**
  *
@@ -29,6 +25,9 @@ public class Frame extends javax.swing.JFrame {
     /**
      * Creates new form Frame
      */
+    JBarcodeBean barcode = new JBarcodeBean();
+    public static BufferedImage imagen = null;
+
     public Frame() {
         initComponents();
         this.setLocationRelativeTo(this);
@@ -48,10 +47,26 @@ public class Frame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         labelimage = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        letras = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("EAN13");
+
+        codigoframe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                codigoframeActionPerformed(evt);
+            }
+        });
+        codigoframe.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                codigoframeKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                codigoframeKeyTyped(evt);
+            }
+        });
 
         jLabel2.setText("Digite el codigo(sin cifra de control): ");
 
@@ -62,27 +77,41 @@ public class Frame extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Guardar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        letras.setForeground(new java.awt.Color(255, 0, 51));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(188, 188, 188))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(codigoframe, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(166, 166, 166)))
-                .addGap(44, 44, 44))
+                .addContainerGap(64, Short.MAX_VALUE)
+                .addComponent(labelimage, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(labelimage, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(188, 188, 188))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(letras, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(codigoframe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE))))
+                .addGap(44, 44, 44))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(jButton1)
+                .addGap(56, 56, 56)
+                .addComponent(jButton2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -90,15 +119,19 @@ public class Frame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(jLabel1)
-                .addGap(61, 61, 61)
+                .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(codigoframe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(43, 43, 43)
-                .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addComponent(letras, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addGap(18, 18, 18)
                 .addComponent(labelimage, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
@@ -122,7 +155,8 @@ public class Frame extends javax.swing.JFrame {
             }
         }
         codigof = codigo + cc;
-        try {
+        generaCodigo(codigof);
+        /*try {
             Document doc = new Document();
             PdfWriter pdf = PdfWriter.getInstance(doc, new FileOutputStream("codigo.pdf"));
             doc.open();
@@ -132,21 +166,57 @@ public class Frame extends javax.swing.JFrame {
             Image imageEAN = codeEAN.createImageWithBarcode(pdf.getDirectContent(), null, null);
             doc.add(imageEAN);
             doc.close();
-            BufferedImage bImage = new BufferedImage((int) imageEAN.getWidth(), (int) imageEAN.getHeight(), BufferedImage.TYPE_INT_RGB);
-            Graphics2D g = bImage.createGraphics();
-            
-
-            File outputfile = new File("saved.png");
-            ImageIO.write(bImage, "jpg", new File("code39.jpg"));
+            //BufferedImage bImage = new BufferedImage((int) imageEAN.getWidth(), (int) imageEAN.getHeight(), BufferedImage.TYPE_INT_RGB);
+            //ImageIO.write(bImage, "jpg", new File("code39.jpg"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            ImageIO.write(imagen, "jpg", new File("EAN13.jpg"));
+        } catch (IOException ex) {
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void codigoframeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codigoframeActionPerformed
+
+
+    }//GEN-LAST:event_codigoframeActionPerformed
+
+    private void codigoframeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codigoframeKeyPressed
+        if (codigoframe.getText().length() == 11) {
+            codigoframe.setEditable(false);
+        }
+        if (evt.getKeyChar() == KeyEvent.VK_BACKSPACE) {
+            codigoframe.setEditable(true);
+        }
+    }//GEN-LAST:event_codigoframeKeyPressed
+
+    private void codigoframeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codigoframeKeyTyped
+        if (Character.isLetter(evt.getKeyChar()) && (evt.getKeyChar() != KeyEvent.VK_BACKSPACE)) {
+            evt.consume();
+            letras.setText("Escribe solo numeros");
+        } else {
+            letras.setText("");
+        }
+    }//GEN-LAST:event_codigoframeKeyTyped
+
+    private void generaCodigo(String codigo) {
+        barcode.setCodeType(new Ean13());
+        barcode.setCode(codigo);
+        barcode.setCheckDigit(true);
+        imagen = barcode.draw(new BufferedImage(291, 145, BufferedImage.TYPE_INT_RGB));
+        ImageIcon barras = new ImageIcon(imagen);
+        this.labelimage.setIcon(barras);
+    }
 
     /**
      * @param args the command line arguments
@@ -186,8 +256,10 @@ public class Frame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField codigoframe;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel labelimage;
+    private javax.swing.JLabel letras;
     // End of variables declaration//GEN-END:variables
 }
