@@ -95,24 +95,25 @@ public class Frame extends javax.swing.JFrame {
                 .addComponent(labelimage, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(64, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(188, 188, 188))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(letras, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(codigoframe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE))))
-                .addGap(44, 44, 44))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(jButton1)
-                .addGap(56, 56, 56)
-                .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(188, 188, 188))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(letras, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(codigoframe, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE))))
+                        .addGap(44, 44, 44))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(26, 26, 26)
+                        .addComponent(jButton2)
+                        .addGap(122, 122, 122))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,25 +157,6 @@ public class Frame extends javax.swing.JFrame {
         }
         codigof = codigo + cc;
         generaCodigo(codigof);
-        /*try {
-            Document doc = new Document();
-            PdfWriter pdf = PdfWriter.getInstance(doc, new FileOutputStream("codigo.pdf"));
-            doc.open();
-            BarcodeEAN codeEAN = new BarcodeEAN();
-            codeEAN.setCodeType(codeEAN.EAN13);
-            codeEAN.setCode(codigof);
-            Image imageEAN = codeEAN.createImageWithBarcode(pdf.getDirectContent(), null, null);
-            doc.add(imageEAN);
-            doc.close();
-            //BufferedImage bImage = new BufferedImage((int) imageEAN.getWidth(), (int) imageEAN.getHeight(), BufferedImage.TYPE_INT_RGB);
-            //ImageIO.write(bImage, "jpg", new File("code39.jpg"));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DocumentException ex) {
-            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -192,7 +174,7 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_codigoframeActionPerformed
 
     private void codigoframeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codigoframeKeyPressed
-        if (codigoframe.getText().length() == 11) {
+        if (codigoframe.getText().length() == 12) {
             codigoframe.setEditable(false);
         }
         if (evt.getKeyChar() == KeyEvent.VK_BACKSPACE) {
